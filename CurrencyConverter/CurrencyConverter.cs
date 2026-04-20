@@ -1,9 +1,12 @@
-﻿using System.Runtime.Intrinsics.Arm;
+using System.Runtime.Intrinsics.Arm;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace CurrencyConverter
 {
+    /// <summary>
+    /// A control that facilitates currency conversion between different currency codes.
+    /// </summary>
     public class CurrencyConverter : Control
     {
         static CurrencyConverter()
@@ -15,12 +18,18 @@ namespace CurrencyConverter
         }
 
         #region Property
+        /// <summary>
+        /// Gets or sets the source currency code.
+        /// </summary>
         public string SourceCurrency 
         {
             get => (string)GetValue(SourceCurrencyProperty);
             set => SetValue(SourceCurrencyProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the target currency code.
+        /// </summary>
         public string TargetCurrency
         {
             get => (string)(GetValue(TargeCurrencyProperty));
@@ -28,16 +37,22 @@ namespace CurrencyConverter
         }
 
 
+        /// <summary>
+        /// Gets or sets the source numeric value.
+        /// </summary>
         public decimal SourceValue
         {
             get => (decimal)(GetValue(SourceValueProperty));
             set => SetValue(SourceValueProperty, value);
         }
 
+        /// <summary>
+        /// Gets the target numeric value.
+        /// </summary>
         public decimal TargetValue
         {
             get => (decimal)(GetValue(TargetValueProperty));
-            set => SetValue(TargetValueProperty, value);
+            private set => SetValue(TargetValueProperty, value);    
         }
 
 
@@ -81,9 +96,24 @@ namespace CurrencyConverter
         #endregion
 
         #region Events
+        /// <summary>
+        /// Occurs when the <see cref="SourceCurrency"/> property changes.
+        /// </summary>
         public event EventHandler? SourceCurrencyChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="TargetCurrency"/> property changes.
+        /// </summary>
         public event EventHandler? TargetCurrencyChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="SourceValue"/> property changes.
+        /// </summary>
         public event EventHandler? SourceValueChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="TargetValue"/> property changes.
+        /// </summary>
         public event EventHandler? TargetValueChanged;
         #endregion
 
@@ -100,7 +130,9 @@ namespace CurrencyConverter
 
         private static void OnSourceValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            ((CurrencyConverter)obj).SourceValueChanged?.Invoke(obj, EventArgs.Empty);
+            var control = (CurrencyConverter)obj;
+            control.SourceValueChanged?.Invoke(obj, EventArgs.Empty);
+            control.TargetValue = control.SourceValue * 2;
         }
 
         private static void OnTargetValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
