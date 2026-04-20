@@ -26,7 +26,7 @@ namespace CurrencyConverter
         private static readonly DependencyProperty SourceCurrencyProperty =
             DependencyProperty.Register(
                 name: nameof(SourceCurrency),
-                propertyType: typeof(bool),
+                propertyType: typeof(string),
                 ownerType: typeof(CurrencyConverter),
                 typeMetadata: new PropertyMetadata("USD", OnSourceCurrencyChanged)
             );
