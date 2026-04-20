@@ -132,7 +132,7 @@ namespace CurrencyConverter
         {
             var control = (CurrencyConverter)obj;
             control.SourceValueChanged?.Invoke(obj, EventArgs.Empty);
-            control.TargetValue = control.SourceValue * 2;
+            control.TargetValue = control.SourceValue;
         }
 
         private static void OnTargetValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)

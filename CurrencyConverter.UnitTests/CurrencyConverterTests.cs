@@ -96,7 +96,7 @@ namespace CurrencyConverter.UnitTests
 
         [Test]
         [Apartment(ApartmentState.STA)]
-        public void TargetValue_WithNewSourceValue_ReturnsDoubleReflectedValue()
+        public void SourceValue_Changed_ReturnsNewTargetValue()
         {
             // Arrange
             CurrencyConverter curConverter = new CurrencyConverter();
@@ -105,7 +105,7 @@ namespace CurrencyConverter.UnitTests
             curConverter.SourceValue = 75.0m;
 
             // Assert
-            Assert.That(curConverter.TargetValue, Is.EqualTo(75.0m * 2));
+            Assert.That(curConverter.TargetValue, Is.EqualTo(75.0m));
         }
 
         #endregion
@@ -162,7 +162,7 @@ namespace CurrencyConverter.UnitTests
 
         [Test]
         [Apartment(ApartmentState.STA)]
-        public void TargetValue_WithNewValue_RaisesTargetValueChangedEvent()
+        public void SourceValue_Changed_RaisesTargetValueChangedEvent()
         {
             // Arrange
             CurrencyConverter curConverter = new CurrencyConverter();
