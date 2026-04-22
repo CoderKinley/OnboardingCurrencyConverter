@@ -1,4 +1,6 @@
+using CurrencyConverter.Models;
 using CurrencyConverter.Provider;
+using System.Data;
 using System.Diagnostics;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
@@ -21,6 +23,12 @@ namespace CurrencyConverter
         }
 
         #region Property
+        /// <summary>
+        /// Gets the supported currencies list.
+        /// </summary>
+        public IEnumerable<CurrencyInfo> SupportedCurrencies => ConversionProvider?.SupportedCurrencies ?? new List<CurrencyInfo>();
+
+
         /// <summary>
         /// Gets or sets the source currency code.
         /// </summary>
@@ -148,9 +156,7 @@ namespace CurrencyConverter
         }
         #endregion
 
-
         #region Public Methods
-
         /// <summary>
         /// Converts a specific amount from one currency to another using the assigned provider.
         /// </summary>

@@ -13,7 +13,7 @@ namespace CurrencyConverter.Provider
         /// <summary>
         /// Gets the collection of currencies supported by this provider.
         /// </summary>
-        IEnumerable<CurrencyInfo> GetSupportedCurrencies { get; }
+        IEnumerable<CurrencyInfo> SupportedCurrencies { get; }
 
         /// <summary>
         /// Retrieves the conversion ratio between the specified source and target currencies.

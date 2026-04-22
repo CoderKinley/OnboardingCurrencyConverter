@@ -32,12 +32,12 @@ namespace CurrencyConverter.Provider
         /// <summary>
         /// Gets the list of supported currencies, loading them from the local CSV resource on first access.
         /// </summary>
-        public IEnumerable<CurrencyInfo> GetSupportedCurrencies
+        public IEnumerable<CurrencyInfo> SupportedCurrencies
         {
             get { 
                 if(_cachedCurrencyInfo == null)
                 {
-                    _cachedCurrencyInfo = SupportedCurrencies();
+                    _cachedCurrencyInfo = FetchSupportedCurrencies();
                 }
                 return _cachedCurrencyInfo;
             }
@@ -80,7 +80,7 @@ namespace CurrencyConverter.Provider
             return rateTo / rateFrom;
         }
 
-        private IEnumerable<CurrencyInfo> SupportedCurrencies()
+        private IEnumerable<CurrencyInfo> FetchSupportedCurrencies()
         {
             var currency = new List<CurrencyInfo>();
 
