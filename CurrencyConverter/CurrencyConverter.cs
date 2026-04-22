@@ -1,4 +1,7 @@
+using CurrencyConverter.Provider;
+using System.Diagnostics;
 using System.Runtime.Intrinsics.Arm;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -55,6 +58,10 @@ namespace CurrencyConverter
             private set => SetValue(TargetValueProperty, value);    
         }
 
+        /// <summary>
+        /// Gets or sets the provider used for currency conversion.
+        /// </summary>
+        public ICurrencyProvider? ConversionProvider { get; set; }
 
         #endregion
 
@@ -138,6 +145,25 @@ namespace CurrencyConverter
         private static void OnTargetValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             ((CurrencyConverter)obj).TargetValueChanged?.Invoke(obj, EventArgs.Empty);
+        }
+        #endregion
+
+
+        #region Public Methods
+
+        /// <summary>
+        /// Converts a specific amount from one currency to another using the assigned provider.
+        /// </summary>
+        /// <param name="amount">The numeric value to convert.</param>
+        /// <param name="fromCode">The source currency ISO code.</param>
+        /// <param name="toCode">The target currency ISO code.</param>
+        /// <returns>The converted value as a decimal.</returns>
+        public async Task<decimal> ConvertCurrency(decimal amount, string fromCode, string toCode)
+        {
+            if (ConversionProvider == null) return 0;
+
+            decimal ratio = await ConversionProvider.GetConversionRatio(fromCode, toCode);
+            return amount * ratio;
         }
         #endregion
     }
