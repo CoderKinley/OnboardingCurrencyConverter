@@ -1,11 +1,12 @@
-﻿using NUnit.Framework;
-using System.Threading;
+﻿using NSubstitute;
 
 namespace CurrencyConverter.UnitTests
 {
     [TestFixture]
+    [Apartment(ApartmentState.STA)]
     internal class CurrencyConverterTests
     {
+        #region DefaultValues 
         [Test]
         [Apartment(ApartmentState.STA)]
         public void SourceCurrency_WithDefaultConstructor_ReturnsDefaultValue()
@@ -49,11 +50,11 @@ namespace CurrencyConverter.UnitTests
             // Assert 
             Assert.That(curConverter.TargetValue, Is.EqualTo(1.00m));
         }
+        #endregion
 
         #region Property Value Tests
 
         [Test]
-        [Apartment(ApartmentState.STA)]
         public void SourceCurrency_WithNewValue_ReturnsNewValue()
         {
             // Arrange
@@ -67,7 +68,6 @@ namespace CurrencyConverter.UnitTests
         }
 
         [Test]
-        [Apartment(ApartmentState.STA)]
         public void TargetCurrency_WithNewValue_ReturnsNewValue()
         {
             // Arrange
@@ -81,7 +81,6 @@ namespace CurrencyConverter.UnitTests
         }
 
         [Test]
-        [Apartment(ApartmentState.STA)]
         public void SourceValue_WithNewValue_ReturnsNewValue()
         {
             // Arrange
@@ -95,7 +94,6 @@ namespace CurrencyConverter.UnitTests
         }
 
         [Test]
-        [Apartment(ApartmentState.STA)]
         public void SourceValue_Changed_ReturnsNewTargetValue()
         {
             // Arrange
@@ -113,7 +111,6 @@ namespace CurrencyConverter.UnitTests
         #region Event Raising Tests
 
         [Test]
-        [Apartment(ApartmentState.STA)]
         public void SourceCurrency_WithNewValue_RaisesSourceCurrencyChangedEvent()
         {
             // Arrange
@@ -129,7 +126,6 @@ namespace CurrencyConverter.UnitTests
         }
 
         [Test]
-        [Apartment(ApartmentState.STA)]
         public void TargetCurrency_WithNewValue_RaisesTargetCurrencyChangedEvent()
         {
             // Arrange
@@ -161,7 +157,6 @@ namespace CurrencyConverter.UnitTests
         }
 
         [Test]
-        [Apartment(ApartmentState.STA)]
         public void SourceValue_Changed_RaisesTargetValueChangedEvent()
         {
             // Arrange
@@ -174,6 +169,14 @@ namespace CurrencyConverter.UnitTests
 
             // Assert
             Assert.That(eventRaised, Is.True);
+        }
+        #endregion
+
+        #region NSubstitude
+        [Test]
+        public void CurrencyConverter_WithNewValue_RaisesTargetCurrencyChangedEvent()
+        {
+
         }
 
         #endregion
