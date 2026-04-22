@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -14,6 +15,7 @@ namespace CurrencyConverter
     /// </summary>
     public class CurrencyConverter : Control
     {
+        #region Constructor
         static CurrencyConverter()
         {
             DefaultStyleKeyProperty.OverrideMetadata(
@@ -22,13 +24,9 @@ namespace CurrencyConverter
             );
         }
 
+        #endregion
+
         #region Property
-        /// <summary>
-        /// Gets the supported currencies list.
-        /// </summary>
-        public IEnumerable<CurrencyInfo> SupportedCurrencies => ConversionProvider?.SupportedCurrencies ?? new List<CurrencyInfo>();
-
-
         /// <summary>
         /// Gets or sets the source currency code.
         /// </summary>
@@ -70,6 +68,11 @@ namespace CurrencyConverter
         /// Gets or sets the provider used for currency conversion.
         /// </summary>
         public ICurrencyProvider? ConversionProvider { get; set; }
+
+        /// <summary>
+        /// Gets the supported currencies list.
+        /// </summary>
+        public IEnumerable<CurrencyInfo> SupportedCurrencies => ConversionProvider?.SupportedCurrencies ?? new List<CurrencyInfo>();
 
         #endregion
 
@@ -135,24 +138,40 @@ namespace CurrencyConverter
         #region Callbacks
         private static void OnSourceCurrencyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            ((CurrencyConverter)obj).SourceCurrencyChanged?.Invoke(obj, EventArgs.Empty);
+            var control = (CurrencyConverter)obj;
+            control.SourceCurrencyChanged?.Invoke(control, EventArgs.Empty);
+            _ = UpdateTargetValueAsync(control);
         }
 
         private static void OnTargetCurrencyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            ((CurrencyConverter)obj).TargetCurrencyChanged?.Invoke(obj, EventArgs.Empty);
+            var control = (CurrencyConverter)obj;
+            control.TargetCurrencyChanged?.Invoke(control, EventArgs.Empty);
+            _ = UpdateTargetValueAsync(control);
         }
 
         private static void OnSourceValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var control = (CurrencyConverter)obj;
-            control.SourceValueChanged?.Invoke(obj, EventArgs.Empty);
-            control.TargetValue = control.SourceValue;
+            control.SourceValueChanged?.Invoke(control, EventArgs.Empty);
+            _ = UpdateTargetValueAsync(control);
         }
 
         private static void OnTargetValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             ((CurrencyConverter)obj).TargetValueChanged?.Invoke(obj, EventArgs.Empty);
+        } 
+
+        private static async Task UpdateTargetValueAsync(CurrencyConverter control)
+        {
+            if(control.ConversionProvider != null)
+            {
+                try
+                {
+                    control.TargetValue = await control.ConvertCurrency(control.SourceValue, control.SourceCurrency, control.TargetCurrency);
+                }
+                catch { }
+            }
         }
         #endregion
 

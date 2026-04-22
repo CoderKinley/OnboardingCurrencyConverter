@@ -10,10 +10,14 @@
 
   <ItemGroup>
     <None Remove="Resources\country-code-to-currency-code-mapping.csv" />
+    <None Remove="Resources\currency_conversion_rates.csv" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Resources\country-code-to-currency-code-mapping.csv">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\currency_conversion_rates.csv">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
