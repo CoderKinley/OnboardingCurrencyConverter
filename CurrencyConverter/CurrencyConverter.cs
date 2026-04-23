@@ -67,7 +67,11 @@ namespace CurrencyConverter
         /// <summary>
         /// Gets or sets the provider used for currency conversion.
         /// </summary>
-        public ICurrencyProvider? ConversionProvider { get; set; }
+        public ICurrencyProvider? ConversionProvider 
+        {
+            get => (ICurrencyProvider?)GetValue(ConversionProviderProperty);
+            set => SetValue(ConversionProviderProperty, value);     
+        }
 
         /// <summary>
         /// Gets the supported currencies list.
@@ -111,6 +115,13 @@ namespace CurrencyConverter
                 typeMetadata: new PropertyMetadata(1.00m, OnTargetValueChanged)
             );
 
+        private static readonly DependencyProperty ConversionProviderProperty =
+            DependencyProperty.Register(
+                name: nameof(ConversionProvider),
+                propertyType: typeof(ICurrencyProvider),
+                ownerType: typeof(CurrencyConverter),
+                typeMetadata: new PropertyMetadata(OnConversionProviderChanged)
+            );
         #endregion
 
         #region Events
@@ -133,6 +144,11 @@ namespace CurrencyConverter
         /// Occurs when the <see cref="TargetValue"/> property changes.
         /// </summary>
         public event EventHandler? TargetValueChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="ConversionProvider"/> property changes.
+        /// </summary>
+        public event EventHandler? ConversionProviderChanged;
         #endregion
 
         #region Callbacks
@@ -157,18 +173,29 @@ namespace CurrencyConverter
             _ = UpdateTargetValueAsync(control);
         }
 
+        private static async Task OnConversionProviderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            var control = (CurrencyConverter)obj;
+            control.ConversionProviderChanged?.Invoke(control, EventArgs.Empty);
+
+            if(args.NewValue is ICurrencyProvider cp)
+            {
+                _ = UpdateTargetValueAsync(control, cp);
+            }
+        }
+
         private static void OnTargetValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             ((CurrencyConverter)obj).TargetValueChanged?.Invoke(obj, EventArgs.Empty);
         } 
 
-        private static async Task UpdateTargetValueAsync(CurrencyConverter control)
+        private static async Task UpdateTargetValueAsync(CurrencyConverter control, ICurrencyProvider? currencyProvider = null)
         {
             if(control.ConversionProvider != null)
             {
                 try
                 {
-                    control.TargetValue = await control.ConvertCurrency(control.SourceValue, control.SourceCurrency, control.TargetCurrency);
+                    control.TargetValue = await control.ConvertCurrency(control.SourceValue, control.SourceCurrency, control.TargetCurrency, currencyProvider);
                 }
                 catch { }
             }
@@ -183,11 +210,12 @@ namespace CurrencyConverter
         /// <param name="fromCode">The source currency ISO code.</param>
         /// <param name="toCode">The target currency ISO code.</param>
         /// <returns>The converted value as a decimal.</returns>
-        public async Task<decimal> ConvertCurrency(decimal amount, string fromCode, string toCode)
+        public async Task<decimal> ConvertCurrency(decimal amount, string fromCode, string toCode, ICurrencyProvider? currencyProvider = null )
         {
-            if (ConversionProvider == null) return 0;
+            var provider = currencyProvider ?? ConversionProvider;
+            if (provider == null) return 0;
 
-            decimal ratio = await ConversionProvider.GetConversionRatio(fromCode, toCode);
+            decimal ratio = await provider.GetConversionRatio(fromCode, toCode);
             return amount * ratio;
         }
         #endregion
