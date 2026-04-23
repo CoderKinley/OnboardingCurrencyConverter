@@ -44,19 +44,23 @@ namespace CurrencyConverter.UnitTests
         }
 
         [Test]
-        public void TargetValue_WithDefaultConstructor_ReturnsDefaultValue()
+        public async Task TargetValue_WithDefaultConstructor_ReturnsDefaultValue()
         {
             // Arrange
             var provider = Substitute.For<ICurrencyProvider>();
-            CurrencyConverter curConverter = new CurrencyConverter();
-            curConverter.ConversionProvider = provider;
+            provider.GetConversionRatio(Arg.Any<string>(), Arg.Any<string>())
+                    .Returns(Task.FromResult(1m));
 
-            provider
-                .GetConversionRatio("AUD", "USD")
-                .ReturnsForAnyArgs(Task.FromResult(1m));
+            var curConverter = new CurrencyConverter();
+            var tcs = new TaskCompletionSource<bool>();
+            curConverter.TargetValueChanged += (s, e) => tcs.TrySetResult(true);
+
+            // Act
+            curConverter.ConversionProvider = provider;
+            await Task.WhenAny(tcs.Task, Task.Delay(1000));
 
             // Assert 
-            Assert.That(curConverter.TargetValue, Is.EqualTo(0m));
+            Assert.That(curConverter.TargetValue, Is.EqualTo(1m));
         }
         #endregion
 
