@@ -37,7 +37,7 @@ namespace CurrencyConverter.Provider
             get { 
                 if(_cachedCurrencyInfo == null)
                 {
-                    _cachedCurrencyInfo = FetchSupportedCurrencies();
+                    _cachedCurrencyInfo = GetSupportedCurrencies();
                 }
                 return _cachedCurrencyInfo;
             }
@@ -80,7 +80,7 @@ namespace CurrencyConverter.Provider
             return rateTo / rateFrom;
         }
 
-        private IEnumerable<CurrencyInfo> FetchSupportedCurrencies()
+        private IEnumerable<CurrencyInfo> GetSupportedCurrencies()
         {
             var currency = new List<CurrencyInfo>();
 
