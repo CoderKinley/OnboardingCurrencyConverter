@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
 	  <DefineConstants>WPF</DefineConstants>
+	  <AssemblyName>CurrencyConverter</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,5 +22,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
-
+	
+	<ItemGroup>
+		<Folder Include="Themes\" />
+	</ItemGroup>
+	
 </Project>
