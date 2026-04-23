@@ -120,7 +120,7 @@ namespace CurrencyConverter
                 name: nameof(ConversionProvider),
                 propertyType: typeof(ICurrencyProvider),
                 ownerType: typeof(CurrencyConverter),
-                typeMetadata: new PropertyMetadata(OnConversionProviderChanged)
+                typeMetadata: new PropertyMetadata(null, OnConversionProviderChanged)
             );
         #endregion
 
@@ -173,7 +173,7 @@ namespace CurrencyConverter
             _ = UpdateTargetValueAsync(control);
         }
 
-        private static async Task OnConversionProviderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        private static async void OnConversionProviderChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var control = (CurrencyConverter)obj;
             control.ConversionProviderChanged?.Invoke(control, EventArgs.Empty);

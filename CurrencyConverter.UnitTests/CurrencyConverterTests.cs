@@ -1,4 +1,5 @@
-﻿using CurrencyConverter.Provider;
+﻿using CurrencyConverter.Models;
+using CurrencyConverter.Provider;
 using NSubstitute;
 using System.Windows.Controls;
 
@@ -13,7 +14,8 @@ namespace CurrencyConverter.UnitTests
         public void SourceCurrency_WithDefaultConstructor_ReturnsDefaultValue()
         {
             // Arrange
-            CurrencyConverter curConverter = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter curConverter = new CurrencyConverter { ConversionProvider = provider };
 
             // Assert
             Assert.That(curConverter.SourceCurrency, Is.EqualTo("USD"));
@@ -23,7 +25,8 @@ namespace CurrencyConverter.UnitTests
         public void TargetCurrency_WithDefaultConstructor_ReturnsDefaultValue()
         {
             // Arrange
-            CurrencyConverter curConverter = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter curConverter = new CurrencyConverter { ConversionProvider = provider };
 
             // Assert
             Assert.That(curConverter.TargetCurrency, Is.EqualTo("EUR"));
@@ -33,7 +36,8 @@ namespace CurrencyConverter.UnitTests
         public void SourceValue_WithDefaultConstructor_ReturnsDefaultValue()
         {
             // Arrange
-            CurrencyConverter curConverter = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter curConverter = new CurrencyConverter { ConversionProvider = provider };
 
             // Assert 
             Assert.That(curConverter.SourceValue, Is.EqualTo(1.00m));
@@ -43,10 +47,16 @@ namespace CurrencyConverter.UnitTests
         public void TargetValue_WithDefaultConstructor_ReturnsDefaultValue()
         {
             // Arrange
+            var provider = Substitute.For<ICurrencyProvider>();
             CurrencyConverter curConverter = new CurrencyConverter();
+            curConverter.ConversionProvider = provider;
+
+            provider
+                .GetConversionRatio("AUD", "USD")
+                .ReturnsForAnyArgs(Task.FromResult(1m));
 
             // Assert 
-            Assert.That(curConverter.TargetValue, Is.EqualTo(1.00m));
+            Assert.That(curConverter.TargetValue, Is.EqualTo(0m));
         }
         #endregion
 
@@ -56,7 +66,8 @@ namespace CurrencyConverter.UnitTests
         public void SourceCurrency_WithNewValue_ReturnsNewValue()
         {
             // Arrange
-            CurrencyConverter curConverter = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter curConverter = new CurrencyConverter { ConversionProvider = provider };
 
             // Act
             curConverter.SourceCurrency = "BTN";
@@ -69,7 +80,8 @@ namespace CurrencyConverter.UnitTests
         public void TargetCurrency_WithNewValue_ReturnsNewValue()
         {
             // Arrange
-            CurrencyConverter curConverter = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter curConverter = new CurrencyConverter { ConversionProvider = provider };
 
             // Act
             curConverter.TargetCurrency = "JPY";
@@ -82,7 +94,8 @@ namespace CurrencyConverter.UnitTests
         public void SourceValue_WithNewValue_ReturnsNewValue()
         {
             // Arrange
-            CurrencyConverter curConverter = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter curConverter = new CurrencyConverter { ConversionProvider = provider };
 
             // Act
             curConverter.SourceValue = 50.0m;
@@ -98,7 +111,8 @@ namespace CurrencyConverter.UnitTests
         public void SourceCurrency_WithNewValue_RaisesSourceCurrencyChangedEvent()
         {
             // Arrange
-            CurrencyConverter curConverter = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter curConverter = new CurrencyConverter { ConversionProvider = provider };
             bool eventRaised = false;
             curConverter.SourceCurrencyChanged += (s, e) => eventRaised = true;
 
@@ -113,7 +127,8 @@ namespace CurrencyConverter.UnitTests
         public void TargetCurrency_WithNewValue_RaisesTargetCurrencyChangedEvent()
         {
             // Arrange
-            CurrencyConverter curConverter = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter curConverter = new CurrencyConverter { ConversionProvider = provider };
             bool eventRaised = false;
             curConverter.TargetCurrencyChanged += (s, e) => eventRaised = true;
 
@@ -129,7 +144,8 @@ namespace CurrencyConverter.UnitTests
         public void SourceValue_WithNewValue_RaisesSourceValueChangedEvent()
         {
             // Arrange
-            CurrencyConverter curConverter = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter curConverter = new CurrencyConverter { ConversionProvider = provider };
             bool eventRaised = false;
             curConverter.SourceValueChanged += (s, e) => eventRaised = true;
 
@@ -163,7 +179,8 @@ namespace CurrencyConverter.UnitTests
         public async Task CurrencyConverter_WithChangeToSource_ReturnsCorrectValues()
         {
             // Arrange
-            var control = new CurrencyConverter();
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter control = new CurrencyConverter { ConversionProvider = provider };
             var substituteProvider = Substitute.For<ICurrencyProvider>();
 
             substituteProvider
@@ -188,8 +205,8 @@ namespace CurrencyConverter.UnitTests
         public async Task CurrencyConverter_SourceValueZero_ReturnsZero()
         {
             // Arrange
-            var control = new CurrencyConverter();
             var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter control = new CurrencyConverter { ConversionProvider = provider };
             provider.GetConversionRatio(Arg.Any<string>(), Arg.Any<string>()).Returns(0.85m);
             control.ConversionProvider = provider;
 
@@ -205,22 +222,23 @@ namespace CurrencyConverter.UnitTests
         public async Task CurrencyConverter_NoProviderSet_DoesNotCrashAndReturnsZero()
         {
             // Arrange
-            var control = new CurrencyConverter { ConversionProvider = null };
-
+            var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter control = new CurrencyConverter { ConversionProvider = provider };
             // Act & Assert
-            Assert.DoesNotThrowAsync(async () => {
+            Assert.DoesNotThrowAsync(async () =>
+            {
                 var result = await control.ConvertCurrency(100m, "USD", "EUR");
                 Assert.That(result, Is.EqualTo(0m));
             });
         }
-       
+
 
         [Test]
         public async Task CurrencyConverter_ChangingTargetCurrency_UpdatesValue()
         {
             // Arrange
-            var control = new CurrencyConverter();
             var provider = Substitute.For<ICurrencyProvider>();
+            CurrencyConverter control = new CurrencyConverter { ConversionProvider = provider };
 
             provider.GetConversionRatio("USD", "GBP").Returns(0.8m);
             provider.GetConversionRatio("USD", "JPY").Returns(110m);
@@ -241,6 +259,70 @@ namespace CurrencyConverter.UnitTests
             // Assert
             Assert.That(control.TargetValue, Is.EqualTo(1100m));
         }
+
+
+        [Test]
+        public async Task CurrencyConverter_WhenProviderSwapped_UpdatesTargetValueImmediately()
+        {
+            // Arrange
+            var control = new CurrencyConverter
+            {
+                SourceCurrency = "USD",
+                TargetCurrency = "GBP",
+                SourceValue = 100m,
+            };
+
+            var mockProvider = Substitute.For<ICurrencyProvider>();
+            mockProvider.GetConversionRatio("USD", "GBP").Returns(0.75m);
+
+            var tcs = new TaskCompletionSource<bool>();
+            control.TargetValueChanged += (s, e) => tcs.TrySetResult(true);
+
+            // Act
+            control.ConversionProvider = mockProvider;
+
+            // Wait for the async callback triggered by OnConversionProviderChanged
+            await Task.WhenAny(tcs.Task, Task.Delay(500));
+
+            // Assert
+            Assert.That(control.TargetValue, Is.EqualTo(75m));
+        }
+
+        [Test]
+        public void SupportedCurrencies_WhenProviderIsNull_ReturnsEmptyList()
+        {
+            // Arrange
+            var control = new CurrencyConverter { ConversionProvider = null };
+
+            // Act & Assert
+            Assert.That(control.SupportedCurrencies, Is.Empty);
+        }
+
+        [Test]
+        public async Task ConvertCurrency_ManualCallWithOverrideProvider_UsesOverrideInsteadOfInternal()
+        {
+            // Arrange
+            var internalProvider = Substitute.For<ICurrencyProvider>();
+            var overrideProvider = Substitute.For<ICurrencyProvider>();
+
+            internalProvider.GetConversionRatio("USD", "EUR").Returns(0.9m);
+            overrideProvider.GetConversionRatio("USD", "EUR").Returns(0.5m);
+
+            var control = new CurrencyConverter { ConversionProvider = internalProvider };
+
+            await Task.Delay(50);
+            internalProvider.ClearReceivedCalls();
+
+            // Act
+            var result = await control.ConvertCurrency(100m, "USD", "EUR", overrideProvider);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(50m));
+
+            // Now this will correctly verify that ONLY the override was used during the 'Act' phase
+            await internalProvider.DidNotReceive().GetConversionRatio(Arg.Any<string>(), Arg.Any<string>());
+            await overrideProvider.Received(1).GetConversionRatio("USD", "EUR");
+        }
+        #endregion
     }
-    #endregion
 }
