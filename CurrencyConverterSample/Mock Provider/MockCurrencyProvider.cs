@@ -23,15 +23,15 @@ namespace CurrencyConverterSample.Mock_Provider
         };
 
         private readonly Dictionary<string, decimal> _mockRates = new Dictionary<string, decimal>
-    {
-        { "USD", 1.0m },
-        { "EUR", 0.92m },
-        { "GBP", 0.79m },
-        { "AUD", 1.52m },
-        { "INR", 83.30m },
-        { "BTN", 83.30m },
-        { "JPY", 155.20m }
-    };
+        {
+            { "USD", 1.0m },
+            { "EUR", 0.92m },
+            { "GBP", 0.79m },
+            { "AUD", 1.52m },
+            { "INR", 83.30m },
+            { "BTN", 83.30m },
+            { "JPY", 155.20m }
+        };
 
         public Task<decimal> GetConversionRatio(string sourceCode, string targetCode)
         {

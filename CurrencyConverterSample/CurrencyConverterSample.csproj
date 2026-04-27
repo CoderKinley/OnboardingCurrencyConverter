@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="C1.WPF.Grid" Version="10.0.20252.1321" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CurrencyConverter\CurrencyConverter.csproj" />
   </ItemGroup>
 

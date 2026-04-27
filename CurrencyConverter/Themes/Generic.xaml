@@ -3,76 +3,88 @@
                     xmlns:local="clr-namespace:CurrencyConverter"
                     xmlns:models="clr-namespace:CurrencyConverter.Models">
 
+    <!--How you want to view your data-->
     <DataTemplate x:Key="CurrencyItemTemplate"
                   DataType="{x:Type models:CurrencyInfo}">
-        <StackPanel Orientation="Horizontal"
-                    Margin="2">
+        <Grid Margin="4,2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
             <TextBlock Text="{Binding CurrencyCode}"
-                       FontWeight="Bold"
-                       Width="40"
-                       VerticalAlignment="Center" />
-            <TextBlock Text=" - "
-                       VerticalAlignment="Center" />
-            <TextBlock Text="{Binding CurrencyName}"
-                       Foreground="Gray"
-                       FontSize="11"
-                       VerticalAlignment="Center"
-                       Margin="5,0,0,0" />
-        </StackPanel>
+                       FontWeight="SemiBold"
+                       Foreground="#2C3E50"
+                       Width="35" />
+        </Grid>
     </DataTemplate>
 
     <Style TargetType="{x:Type local:CurrencyConverter}">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Height"
+                Value="50" />
         <Setter Property="Template">
             <Setter.Value>
+                <!--Control Template -> similar to the UI blueprint-->
                 <ControlTemplate TargetType="{x:Type local:CurrencyConverter}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="Chocolate"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="10">
+                    <Border Background="White"
+                            CornerRadius="8"
+                            BorderBrush="#DCDDE1"
+                            BorderThickness="1"
+                            Padding="2">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10"
+                                              ShadowDepth="1"
+                                              Opacity="0.1"
+                                              Color="Black" />
+                        </Border.Effect>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.2*" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="1.2*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
+							
                             <TextBox Grid.Column="0"
                                      Text="{Binding SourceValue, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                     Margin="5"
+                                     FontSize="18"
+                                     FontWeight="Medium"
                                      VerticalContentAlignment="Center"
-                                     Height="32" />
+                                     Padding="10,0"
+                                     Margin="5" />
 
-                            <ComboBox x:Name="SourceCurrency"
-                                      Grid.Column="1"
+                            <ComboBox Grid.Column="1"
                                       ItemsSource="{TemplateBinding SupportedCurrencies}"
                                       ItemTemplate="{StaticResource CurrencyItemTemplate}"
                                       SelectedValue="{Binding SourceCurrency, RelativeSource={RelativeSource TemplatedParent}}"
                                       SelectedValuePath="CurrencyCode"
-                                      Margin="5"
                                       VerticalContentAlignment="Center"
-                                      Height="32" />
+                                      Background="#F8F9F9"
+                                      BorderThickness="0"
+                                      Margin="5" />
+
 
                             <TextBox Grid.Column="2"
                                      Text="{Binding TargetValue, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                     Margin="5"
+                                     FontSize="18"
+                                     FontWeight="Bold"
                                      IsReadOnly="True"
-                                     VerticalAlignment="Center"
-                                     IsEnabled="False"
-                                     Height="32"
+                                     BorderThickness="0"
+                                     Background="Transparent"
                                      VerticalContentAlignment="Center"
-                                     FontWeight="Bold" />
+                                     Padding="10,0"
+                                     Margin="5" />
 
-                            <ComboBox x:Name="TargetCurrency"
-                                      Grid.Column="3"
-                                      SelectedValue="{Binding TargetCurrency,  RelativeSource={RelativeSource TemplatedParent}}"
+                            <ComboBox Grid.Column="3"
                                       ItemsSource="{TemplateBinding SupportedCurrencies}"
                                       ItemTemplate="{StaticResource CurrencyItemTemplate}"
+                                      SelectedValue="{Binding TargetCurrency, RelativeSource={RelativeSource TemplatedParent}}"
                                       SelectedValuePath="CurrencyCode"
-                                      Margin="5"
                                       VerticalContentAlignment="Center"
-                                      Height="32" />
+                                      Background="#F8F9F9"
+                                      BorderThickness="0"
+                                      Margin="5" />
                         </Grid>
                     </Border>
                 </ControlTemplate>
