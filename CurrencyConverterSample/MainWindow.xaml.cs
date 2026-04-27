@@ -44,7 +44,7 @@ namespace CurrencyConverterSample
             MyCurrencyControl.TargetCurrency = "EUR";
 
             MyCurrencyControl.TargetValueChanged += MyCurrencyControl_TargetValueChanged;
-            UpdateCatalogueAsync();
+            UpdateCatalogueAsync().Wait();
         }
 
         private async void MyCurrencyControl_TargetValueChanged(object? sender, EventArgs e)
@@ -57,7 +57,7 @@ namespace CurrencyConverterSample
             if (_mockCurrencyProvider == null) return;
 
             string targetCurrency = MyCurrencyControl.TargetCurrency;
-            string sourceCurrency = MyCurrencyControl.SourceCurrency;
+            string sourceCurrency = "USD";
 
             _productViewModel.ConvertedPriceHeader = $"Price ({targetCurrency})";
 
@@ -66,8 +66,8 @@ namespace CurrencyConverterSample
                 prod.ConvertedPrice = await MyCurrencyControl.ConvertCurrency(
                     prod.ProductPrice,
                     sourceCurrency,
-                    targetCurrency,
-                    _mockCurrencyProvider);
+                    targetCurrency
+                    );
             }
 
         }

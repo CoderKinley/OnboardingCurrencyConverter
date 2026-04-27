@@ -16,4 +16,8 @@
     <ProjectReference Include="..\CurrencyConverter\CurrencyConverter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
+
 </Project>
