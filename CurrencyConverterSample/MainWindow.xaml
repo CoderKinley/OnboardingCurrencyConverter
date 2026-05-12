@@ -1,4 +1,4 @@
-﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:CurrencyConverterSample"
         xmlns:cc="clr-namespace:CurrencyConverter;assembly=CurrencyConverter"
@@ -10,16 +10,40 @@
         Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
+        
         <cc:CurrencyConverter Grid.Row="0"
-                              x:Name="MyCurrencyControl" />
+                              ConversionProvider="{Binding CurrencyProvider}"
+                              TargetCurrency="{Binding TargetCurrency, Mode=TwoWay}" />
+        
         <View:ProductCatalogue Grid.Row="1"
-                               x:Name="ProductCatelogueCtrl"
+                               DataContext="{Binding ProductViewModel}"
                                ProductNameText="{Binding ProductNameHeader}"
                                OriginalPriceText="{Binding OriginalPriceHeader}"
                                ConvertedPriceText="{Binding ConvertedPriceHeader}"
                                VerticalAlignment="Top" />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="{Binding WelcomeMessage}"
+                       Grid.Column="0"
+                       FontSize="20"
+                       Background="LightGray"
+                       Margin="10" />
+
+            <Button Content="Change Welcome Message"
+                    Command="{Binding ChangeWelcomeCommand}"
+                    Grid.Column="1"
+                    BorderBrush="Transparent"
+                    Margin="10" />
+        </Grid>
     </Grid>
+
 </Window>

@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:CurrencyConverter"
                     xmlns:models="clr-namespace:CurrencyConverter.Models">
 
+    <local:DecimalToTwoPlacesConverter x:Key="decimalToTwoPlacesConverter" />
     <!--How you want to view your data-->
     <DataTemplate x:Key="CurrencyItemTemplate"
                   DataType="{x:Type models:CurrencyInfo}">
@@ -45,14 +46,21 @@
                                 <ColumnDefinition Width="1.2*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-							
+
                             <TextBox Grid.Column="0"
                                      Text="{Binding SourceValue, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                      FontSize="18"
                                      FontWeight="Medium"
                                      VerticalContentAlignment="Center"
                                      Padding="10,0"
-                                     Margin="5" />
+                                     Margin="5">
+                                <TextBox.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius"
+                                                Value="5" />
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
 
                             <ComboBox Grid.Column="1"
                                       ItemsSource="{TemplateBinding SupportedCurrencies}"
@@ -66,7 +74,7 @@
 
 
                             <TextBox Grid.Column="2"
-                                     Text="{Binding TargetValue, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                     Text="{Binding TargetValue, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource decimalToTwoPlacesConverter}}"
                                      FontSize="18"
                                      FontWeight="Bold"
                                      IsReadOnly="True"

@@ -1,20 +1,12 @@
-﻿using CurrencyConverterSample.Model;
-using System;
-using System.Collections.Generic;
+using CurrencyConverterSample.Model;
+using CurrencyConverterSample.ViewModel.Base;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CurrencyConverterSample.ViewModel
 {
-    public class ProductCatalogueViewModel : INotifyPropertyChanged
+    public class ProductCatalogueViewModel : ViewModelBase
     {
         private ObservableCollection<ProductCatalogueModel> _productSource = new ObservableCollection<ProductCatalogueModel>();
-
-        // Backing fields for headers
         private string _productNameHeader = "Product Name";
         private string _originalPriceHeader = "Original Price";
         private string _convertedPriceHeader = "Converted Price";
@@ -22,36 +14,31 @@ namespace CurrencyConverterSample.ViewModel
         public ObservableCollection<ProductCatalogueModel> ProductSource
         {
             get => _productSource;
-            set { _productSource = value; OnPropertyChanged(); }
+            set => SetProperty(ref _productSource, value);
         }
 
         public string ProductNameHeader
         {
             get => _productNameHeader;
-            set { _productNameHeader = value; OnPropertyChanged(); }
+            set => SetProperty(ref _productNameHeader, value);
         }
 
         public string OriginalPriceHeader
         {
             get => _originalPriceHeader;
-            set { _originalPriceHeader = value; OnPropertyChanged(); }
+            set => SetProperty(ref _originalPriceHeader, value);
         }
 
         public string ConvertedPriceHeader
         {
             get => _convertedPriceHeader;
-            set { _convertedPriceHeader = value; OnPropertyChanged(); }
+            set => SetProperty(ref _convertedPriceHeader, value);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
-        // Example method to show how to change them dynamically
         public void UpdateCurrencyHeaders(string currencyCode)
         {
             OriginalPriceHeader = "Price (USD)";
             ConvertedPriceHeader = $"Price ({currencyCode})";
         }
     }
-}
+}
