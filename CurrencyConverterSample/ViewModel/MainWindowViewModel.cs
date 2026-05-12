@@ -48,7 +48,14 @@ namespace CurrencyConverterSample.ViewModel
             {
                 new ProductCatalogueModel { ProductName = "Laptop", ProductPrice = 1200.00m },
                 new ProductCatalogueModel { ProductName = "Mouse", ProductPrice = 25.50m },
-                new ProductCatalogueModel { ProductName = "Keyboard", ProductPrice = 75.00m }
+                new ProductCatalogueModel { ProductName = "Keyboard", ProductPrice = 75.00m },
+                new ProductCatalogueModel { ProductName = "Monitor", ProductPrice = 350.00m },
+                new ProductCatalogueModel { ProductName = "Webcam", ProductPrice = 95.00m },
+                new ProductCatalogueModel { ProductName = "Headphones", ProductPrice = 150.00m },
+                new ProductCatalogueModel { ProductName = "Microphone", ProductPrice = 110.00m },
+                new ProductCatalogueModel { ProductName = "USB-C Hub", ProductPrice = 45.00m },
+                new ProductCatalogueModel { ProductName = "Desk Lamp", ProductPrice = 60.00m },
+                new ProductCatalogueModel { ProductName = "External SSD", ProductPrice = 210.00m }
             };
 
             ProductViewModel = new ProductCatalogueViewModel
