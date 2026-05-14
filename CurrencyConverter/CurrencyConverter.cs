@@ -76,7 +76,11 @@ namespace CurrencyConverter
         /// <summary>
         /// Gets the supported currencies list.
         /// </summary>
-        public IEnumerable<CurrencyInfo> SupportedCurrencies => ConversionProvider?.SupportedCurrencies ?? new List<CurrencyInfo>();
+        public IEnumerable<CurrencyInfo> SupportedCurrencies
+        {
+            get => (IEnumerable<CurrencyInfo>)GetValue(SupportedCurrenciesProperty);
+            private set => SetValue(SupportedCurrenciesProperty, value);
+        }
 
         #endregion
 
@@ -122,6 +126,14 @@ namespace CurrencyConverter
                 ownerType: typeof(CurrencyConverter),
                 typeMetadata: new PropertyMetadata(null, OnConversionProviderChanged)
             );
+
+
+        public static readonly DependencyProperty SupportedCurrenciesProperty =
+            DependencyProperty.Register(
+                nameof(SupportedCurrencies),
+                typeof(IEnumerable<CurrencyInfo>),
+                typeof(CurrencyConverter),
+                new PropertyMetadata(new List<CurrencyInfo>()));
         #endregion
 
         #region Events
@@ -180,8 +192,12 @@ namespace CurrencyConverter
 
             if(args.NewValue is ICurrencyProvider cp)
             {
+                // chaget currencies
+                control.SupportedCurrencies = cp.SupportedCurrencies;   
+
                 _ = UpdateTargetValueAsync(control, cp);
             }
+
         }
 
         private static void OnTargetValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
