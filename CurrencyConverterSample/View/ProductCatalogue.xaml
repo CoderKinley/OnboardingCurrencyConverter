@@ -1,4 +1,4 @@
-﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,6 +10,7 @@
              d:DesignWidth="800">
     <Grid>
         <c1:FlexGrid x:Name="ProductGrid"
+                     IsReadOnly="False"
                      ItemsSource="{Binding ProductSource}"
                      AutoGenerateColumns="False"
                      HorizontalAlignment="Stretch"
@@ -18,6 +19,7 @@
             <c1:FlexGrid.Columns >
                 <c1:GridColumn Binding="ProductName"
                                x:Name="ProductNameHeader"
+                               IsReadOnly="True"
                                Width="*" />
 
                 <c1:GridColumn Binding="ProductPrice"
@@ -28,6 +30,7 @@
                 <c1:GridColumn Binding="ConvertedPrice"
                                x:Name="ConvertedPriceHeader"
                                Format="C2"
+                               IsReadOnly="True"
                                Width="*" />
             </c1:FlexGrid.Columns>
         </c1:FlexGrid>

@@ -23,11 +23,7 @@ namespace CurrencyConverterSample.View
     /// </summary>
     public partial class ProductCatalogue : UserControl
     {
-        public ProductCatalogue()
-        {
-            InitializeComponent();
-        }
-
+        #region Properties
         public string ProductNameText
         {
             get => (string)GetValue(ProductNameTextProperty);
@@ -45,6 +41,10 @@ namespace CurrencyConverterSample.View
             get => (string)GetValue(ConvertedPriceTextProperty);
             set => SetValue(ConvertedPriceTextProperty, value);
         }
+
+        #endregion
+
+        #region Dependency Properties
 
         public static readonly DependencyProperty ProductNameTextProperty =
             DependencyProperty.Register(
@@ -71,6 +71,12 @@ namespace CurrencyConverterSample.View
                 typeof(ProductCatalogue),
                 new PropertyMetadata(string.Empty, OnHeaderChanged));
 
+        #endregion
+
+        public ProductCatalogue()
+        {
+            InitializeComponent();
+        }
 
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

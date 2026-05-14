@@ -6,11 +6,15 @@ namespace CurrencyConverterSample.ViewModel
 {
     public class ProductCatalogueViewModel : ViewModelBase
     {
+        #region Vars
         private ObservableCollection<ProductCatalogueModel> _productSource = new ObservableCollection<ProductCatalogueModel>();
         private string _productNameHeader = "Product Name";
         private string _originalPriceHeader = "Original Price";
         private string _convertedPriceHeader = "Converted Price";
 
+        #endregion
+
+        #region Properties
         public ObservableCollection<ProductCatalogueModel> ProductSource
         {
             get => _productSource;
@@ -34,6 +38,7 @@ namespace CurrencyConverterSample.ViewModel
             get => _convertedPriceHeader;
             set => SetProperty(ref _convertedPriceHeader, value);
         }
+        #endregion
 
         public void UpdateCurrencyHeaders(string currencyCode)
         {

@@ -10,11 +10,16 @@ namespace CurrencyConverterSample.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        #region Vars
         private string _targetCurrency = "EUR";
         private string _sourceCurrency = "USD";
         private string _welcomeMessage = "Welcome to the Currency Converter!";
         private readonly ICurrencyProvider _currencyProvider;
+        private decimal _currentConversionRatio = 1.0m;
 
+        #endregion
+
+        #region Properties
         public ObservableCollection<ProductCatalogueModel> ProductCatalogue { get; }
         public ProductCatalogueViewModel ProductViewModel { get; }
         public ICurrencyProvider CurrencyProvider => _currencyProvider;
@@ -39,6 +44,7 @@ namespace CurrencyConverterSample.ViewModel
 
         // Just trying out command pattern for learning purposes
         public ICommand ChangeWelcomeCommand { get; }
+        #endregion
 
         public MainWindowViewModel(ICurrencyProvider currencyProvider)
         {
@@ -65,6 +71,11 @@ namespace CurrencyConverterSample.ViewModel
                 OriginalPriceHeader = "Price (USD)"
             };
 
+            foreach (var prod in ProductCatalogue)
+            {
+                prod.PropertyChanged += Product_PropertyChanged;
+            }
+
             ChangeWelcomeCommand = new RelayCommand(_ => ChangeWelcomeMessage());
             
             _ = UpdateCatalogueAsync();
@@ -79,11 +90,19 @@ namespace CurrencyConverterSample.ViewModel
         {
             ProductViewModel.ConvertedPriceHeader = $"Price ({TargetCurrency})";
 
-            var convertedRatio = await _currencyProvider.GetConversionRatio(_sourceCurrency, TargetCurrency);
+            _currentConversionRatio = await _currencyProvider.GetConversionRatio(_sourceCurrency, TargetCurrency);
             
             foreach (var prod in ProductCatalogue)
             {
-                prod.ConvertedPrice = Math.Round(prod.ProductPrice * convertedRatio, 2);
+                prod.ConvertedPrice = Math.Round(prod.ProductPrice * _currentConversionRatio, 2);
+            }
+        }
+
+        private void Product_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ProductCatalogueModel.ProductPrice) && sender is ProductCatalogueModel prod)
+            {
+                prod.ConvertedPrice = Math.Round(prod.ProductPrice * _currentConversionRatio, 2);
             }
         }
 

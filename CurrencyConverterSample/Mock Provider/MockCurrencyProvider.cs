@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace CurrencyConverterSample.Mock_Provider
 {
+    /// <summary>
+    /// Mock currency provider to limit real usage
+    /// </summary>
     internal class MockCurrencyProvider : ICurrencyProvider
     {
         public IEnumerable<CurrencyInfo> SupportedCurrencies => new List<CurrencyInfo>

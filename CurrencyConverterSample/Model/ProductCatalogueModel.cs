@@ -1,4 +1,4 @@
-﻿using CurrencyConverterSample.View;
+using CurrencyConverterSample.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,10 +12,24 @@ namespace CurrencyConverterSample.Model
 {
     public class ProductCatalogueModel : INotifyPropertyChanged
     {
-        public string ProductName { get; set; }
-        public decimal ProductPrice { get; set; }
-
+        #region Vars
+        private decimal _productPrice;
         private decimal _convertedPrice;
+        #endregion
+
+        #region Properties
+        public string ProductName { get; set; }
+
+        public decimal ProductPrice
+        {
+            get => _productPrice;
+            set
+            {
+                _productPrice = value;
+                OnPropertyChanged();
+            }
+        }
+
         public decimal ConvertedPrice
         {
             get => _convertedPrice;
@@ -25,6 +39,8 @@ namespace CurrencyConverterSample.Model
                 OnPropertyChanged();
             }
         }
+
+        #endregion
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null) =>
