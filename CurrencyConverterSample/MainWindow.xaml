@@ -16,6 +16,7 @@
         </Grid.RowDefinitions>
         
         <cc:CurrencyConverter Grid.Row="0"
+                              Margin="10"
                               ConversionProvider="{Binding CurrencyProvider}"
                               TargetCurrency="{Binding TargetCurrency, Mode=TwoWay}" />
         

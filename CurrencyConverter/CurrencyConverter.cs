@@ -41,8 +41,8 @@ namespace CurrencyConverter
         /// </summary>
         public string TargetCurrency
         {
-            get => (string)(GetValue(TargeCurrencyProperty));
-            set => SetValue(TargeCurrencyProperty, value);
+            get => (string)(GetValue(TargetCurrencyProperty));
+            set => SetValue(TargetCurrencyProperty, value);
         }
 
 
@@ -103,7 +103,7 @@ namespace CurrencyConverter
             );
 
 
-        private static readonly DependencyProperty TargeCurrencyProperty =
+        private static readonly DependencyProperty TargetCurrencyProperty =
             DependencyProperty.Register(
                 name: nameof(TargetCurrency),
                 propertyType: typeof(string),
@@ -182,7 +182,7 @@ namespace CurrencyConverter
         /// <summary>
         /// Occurs when the <see cref="SupportedFlagProperty"/> property changes.
         /// </summary>
-        public event EventHandler? SupportedFlagChangeds;
+        public event EventHandler? SupportedFlagChanged;
         #endregion
 
         #region Callbacks
