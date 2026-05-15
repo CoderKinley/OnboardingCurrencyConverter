@@ -25,9 +25,9 @@
 
         <!-- Custom style for the source amount input -->
         <Style x:Key="CustomSourceAmountStyle" TargetType="TextBox">
-            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontSize" Value="14" />
             <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Foreground" Value="DarkBlue" />
+            <Setter Property="Foreground" Value="Gray" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -37,8 +37,8 @@
 
         <!-- Custom style for the target amount display -->
         <Style x:Key="CustomTargetAmountStyle" TargetType="TextBox">
-            <Setter Property="FontSize" Value="22" />
-            <Setter Property="FontWeight" Value="ExtraBold" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Foreground" Value="#059669" />
             <Setter Property="IsReadOnly" Value="True" />
             <Setter Property="Background" Value="Transparent" />
