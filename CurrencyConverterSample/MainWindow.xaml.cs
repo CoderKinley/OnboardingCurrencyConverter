@@ -22,7 +22,7 @@ namespace CurrencyConverterSample
             var currencyProvider = new CurrencyConversionProvider("9c405fd189370fb1f44b28158e27b0d8", client);
             var mockCurrencyProvider = new MockCurrencyProvider();  
 
-            this.DataContext = new MainWindowViewModel(currencyProvider);
+            this.DataContext = new MainWindowViewModel(mockCurrencyProvider);
         }
     }
 }
