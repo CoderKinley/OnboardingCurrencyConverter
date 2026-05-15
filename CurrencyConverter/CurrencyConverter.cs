@@ -41,8 +41,8 @@ namespace CurrencyConverter
         /// </summary>
         public string TargetCurrency
         {
-            get => (string)(GetValue(TargeCurrencyProperty));
-            set => SetValue(TargeCurrencyProperty, value);
+            get => (string)(GetValue(TargetCurrencyProperty));
+            set => SetValue(TargetCurrencyProperty, value);
         }
 
 
@@ -91,6 +91,96 @@ namespace CurrencyConverter
             set => SetValue(SupportedFlagProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the style for the source amount TextBox.
+        /// </summary>
+        public Style SourceAmountStyle
+        {
+            get => (Style)GetValue(SourceAmountStyleProperty);
+            set => SetValue(SourceAmountStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the style for the target amount TextBox.
+        /// </summary>
+        public Style TargetAmountStyle
+        {
+            get => (Style)GetValue(TargetAmountStyleProperty);
+            set => SetValue(TargetAmountStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the style for the source currency ComboBox.
+        /// </summary>
+        public Style SourceCurrencyStyle
+        {
+            get => (Style)GetValue(SourceCurrencyStyleProperty);
+            set => SetValue(SourceCurrencyStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the style for the target currency ComboBox.
+        /// </summary>
+        public Style TargetCurrencyStyle
+        {
+            get => (Style)GetValue(TargetCurrencyStyleProperty);
+            set => SetValue(TargetCurrencyStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the style for the source amount container Border.
+        /// </summary>
+        public Style SourceAmountBorderStyle
+        {
+            get => (Style)GetValue(SourceAmountBorderStyleProperty);
+            set => SetValue(SourceAmountBorderStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the style for the target amount container Border.
+        /// </summary>
+        public Style TargetAmountBorderStyle
+        {
+            get => (Style)GetValue(TargetAmountBorderStyleProperty);
+            set => SetValue(TargetAmountBorderStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the style for the source currency container Border.
+        /// </summary>
+        public Style SourceCurrencyBorderStyle
+        {
+            get => (Style)GetValue(SourceCurrencyBorderStyleProperty);
+            set => SetValue(SourceCurrencyBorderStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the style for the target currency container Border.
+        /// </summary>
+        public Style TargetCurrencyBorderStyle
+        {
+            get => (Style)GetValue(TargetCurrencyBorderStyleProperty);
+            set => SetValue(TargetCurrencyBorderStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the style for the main outer Border.
+        /// </summary>
+        public Style MainBorderStyle
+        {
+            get => (Style)GetValue(MainBorderStyleProperty);
+            set => SetValue(MainBorderStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the template for currency items in the ComboBox.
+        /// </summary>
+        public DataTemplate CurrencyItemTemplate
+        {
+            get => (DataTemplate)GetValue(CurrencyItemTemplateProperty);
+            set => SetValue(CurrencyItemTemplateProperty, value);
+        }
+
         #endregion
 
         #region Dependency Property
@@ -103,7 +193,7 @@ namespace CurrencyConverter
             );
 
 
-        private static readonly DependencyProperty TargeCurrencyProperty =
+        private static readonly DependencyProperty TargetCurrencyProperty =
             DependencyProperty.Register(
                 name: nameof(TargetCurrency),
                 propertyType: typeof(string),
@@ -151,6 +241,36 @@ namespace CurrencyConverter
                 typeof(CurrencyConverter),
                 new PropertyMetadata(null)
                 );
+
+        public static readonly DependencyProperty SourceAmountStyleProperty =
+            DependencyProperty.Register(nameof(SourceAmountStyle), typeof(Style), typeof(CurrencyConverter), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty TargetAmountStyleProperty =
+            DependencyProperty.Register(nameof(TargetAmountStyle), typeof(Style), typeof(CurrencyConverter), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty SourceCurrencyStyleProperty =
+            DependencyProperty.Register(nameof(SourceCurrencyStyle), typeof(Style), typeof(CurrencyConverter), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty TargetCurrencyStyleProperty =
+            DependencyProperty.Register(nameof(TargetCurrencyStyle), typeof(Style), typeof(CurrencyConverter), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty SourceAmountBorderStyleProperty =
+            DependencyProperty.Register(nameof(SourceAmountBorderStyle), typeof(Style), typeof(CurrencyConverter), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty TargetAmountBorderStyleProperty =
+            DependencyProperty.Register(nameof(TargetAmountBorderStyle), typeof(Style), typeof(CurrencyConverter), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty SourceCurrencyBorderStyleProperty =
+            DependencyProperty.Register(nameof(SourceCurrencyBorderStyle), typeof(Style), typeof(CurrencyConverter), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty TargetCurrencyBorderStyleProperty =
+            DependencyProperty.Register(nameof(TargetCurrencyBorderStyle), typeof(Style), typeof(CurrencyConverter), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty MainBorderStyleProperty =
+            DependencyProperty.Register(nameof(MainBorderStyle), typeof(Style), typeof(CurrencyConverter), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CurrencyItemTemplateProperty =
+            DependencyProperty.Register(nameof(CurrencyItemTemplate), typeof(DataTemplate), typeof(CurrencyConverter), new PropertyMetadata(null));
         #endregion
 
         #region Events
@@ -182,7 +302,7 @@ namespace CurrencyConverter
         /// <summary>
         /// Occurs when the <see cref="SupportedFlagProperty"/> property changes.
         /// </summary>
-        public event EventHandler? SupportedFlagChangeds;
+        public event EventHandler? SupportedFlagChanged;
         #endregion
 
         #region Callbacks
