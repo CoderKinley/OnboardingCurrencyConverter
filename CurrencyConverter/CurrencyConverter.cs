@@ -82,6 +82,15 @@ namespace CurrencyConverter
             private set => SetValue(SupportedCurrenciesProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the flag of the map
+        /// </summary>
+        public string SupportedFlag
+        {
+            get => (string)GetValue(SupportedFlagProperty);
+            set => SetValue(SupportedFlagProperty, value);
+        }
+
         #endregion
 
         #region Dependency Property
@@ -134,6 +143,14 @@ namespace CurrencyConverter
                 typeof(IEnumerable<CurrencyInfo>),
                 typeof(CurrencyConverter),
                 new PropertyMetadata(new List<CurrencyInfo>()));
+
+        public static readonly DependencyProperty SupportedFlagProperty =
+            DependencyProperty.Register(
+                nameof(SupportedFlag),
+                typeof(string),
+                typeof(CurrencyConverter),
+                new PropertyMetadata(null)
+                );
         #endregion
 
         #region Events
@@ -161,6 +178,11 @@ namespace CurrencyConverter
         /// Occurs when the <see cref="ConversionProvider"/> property changes.
         /// </summary>
         public event EventHandler? ConversionProviderChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="SupportedFlagProperty"/> property changes.
+        /// </summary>
+        public event EventHandler? SupportedFlagChangeds;
         #endregion
 
         #region Callbacks
@@ -193,7 +215,7 @@ namespace CurrencyConverter
             if(args.NewValue is ICurrencyProvider cp)
             {
                 // chaget currencies
-                control.SupportedCurrencies = cp.SupportedCurrencies;   
+                control.SupportedCurrencies = cp.SupportedCurrencies;
 
                 _ = UpdateTargetValueAsync(control, cp);
             }

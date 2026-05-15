@@ -1,4 +1,4 @@
-﻿using CurrencyConverter.Models;
+using CurrencyConverter.Models;
 using CurrencyConverter.Provider;
 using System;
 using System.Collections.Generic;
@@ -16,13 +16,13 @@ namespace CurrencyConverterSample.Mock_Provider
     {
         public IEnumerable<CurrencyInfo> SupportedCurrencies => new List<CurrencyInfo>
         {
-            new CurrencyInfo { CountryCode = "US", CurrencyCode = "USD", CurrencyName = "US Dollar", Country = "United States" },
-            new CurrencyInfo { CountryCode = "EU", CurrencyCode = "EUR", CurrencyName = "Euro", Country = "European Union" },
-            new CurrencyInfo { CountryCode = "GB", CurrencyCode = "GBP", CurrencyName = "British Pound", Country = "United Kingdom" },
-            new CurrencyInfo { CountryCode = "AU", CurrencyCode = "AUD", CurrencyName = "Australian Dollar", Country = "Australia" },
-            new CurrencyInfo { CountryCode = "IN", CurrencyCode = "INR", CurrencyName = "Indian Rupee", Country = "India" },
-            new CurrencyInfo { CountryCode = "BT", CurrencyCode = "BTN", CurrencyName = "Bhutanese Ngultrum", Country = "Bhutan" },
-            new CurrencyInfo { CountryCode = "JP", CurrencyCode = "JPY", CurrencyName = "Japanese Yen", Country = "Japan" }
+            new CurrencyInfo { CountryCode = "US", CurrencyCode = "USD", CurrencyName = "US Dollar", Country = "United States", FlagSource = "pack://application:,,,/CurrencyConverter;component/Provider/svg/us.svg" },
+            new CurrencyInfo { CountryCode = "EU", CurrencyCode = "EUR", CurrencyName = "Euro", Country = "European Union", FlagSource = "pack://application:,,,/CurrencyConverter;component/Provider/svg/eu.svg" },
+            new CurrencyInfo { CountryCode = "GB", CurrencyCode = "GBP", CurrencyName = "British Pound", Country = "United Kingdom", FlagSource = "pack://application:,,,/CurrencyConverter;component/Provider/svg/gb.svg" },
+            new CurrencyInfo { CountryCode = "AU", CurrencyCode = "AUD", CurrencyName = "Australian Dollar", Country = "Australia", FlagSource = "pack://application:,,,/CurrencyConverter;component/Provider/svg/au.svg" },
+            new CurrencyInfo { CountryCode = "IN", CurrencyCode = "INR", CurrencyName = "Indian Rupee", Country = "India", FlagSource = "pack://application:,,,/CurrencyConverter;component/Provider/svg/in.svg" },
+            new CurrencyInfo { CountryCode = "BT", CurrencyCode = "BTN", CurrencyName = "Bhutanese Ngultrum", Country = "Bhutan", FlagSource = "pack://application:,,,/CurrencyConverter;component/Provider/svg/bt.svg" },
+            new CurrencyInfo { CountryCode = "JP", CurrencyCode = "JPY", CurrencyName = "Japanese Yen", Country = "Japan", FlagSource = "pack://application:,,,/CurrencyConverter;component/Provider/svg/jp.svg" }
         };
 
         private readonly Dictionary<string, decimal> _mockRates = new Dictionary<string, decimal>

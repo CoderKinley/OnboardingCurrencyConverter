@@ -1,21 +1,38 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CurrencyConverter"
+                    xmlns:svgc="clr-namespace:SharpVectors.Converters;assembly=SharpVectors.Converters.Wpf"
                     xmlns:models="clr-namespace:CurrencyConverter.Models">
 
     <local:DecimalToTwoPlacesConverter x:Key="decimalToTwoPlacesConverter" />
+    
     <!--How you want to view your data-->
     <DataTemplate x:Key="CurrencyItemTemplate"
                   DataType="{x:Type models:CurrencyInfo}">
         <Grid Margin="4,2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+
+            <svgc:SvgViewbox x:Name="FlagIcon"
+                             Source="{Binding FlagSource}"
+                             Width="24"
+                             Margin="0,0,10,0"
+                             Height="16"
+                             Stretch="Uniform"/>
+
             <TextBlock Text="{Binding CurrencyCode}"
                        FontWeight="SemiBold"
+                       Grid.Column="1"
                        Foreground="#2C3E50"
                        Width="35" />
         </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBoxItem}}}" Value="{x:Null}">
+                <Setter TargetName="FlagIcon" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <Style TargetType="{x:Type local:CurrencyConverter}">
@@ -64,8 +81,8 @@
 
                             <ComboBox Grid.Column="1"
                                       ItemsSource="{TemplateBinding SupportedCurrencies}"
-                                      ItemTemplate="{StaticResource CurrencyItemTemplate}"
                                       SelectedValue="{Binding SourceCurrency, RelativeSource={RelativeSource TemplatedParent}}"
+                                      ItemTemplate="{StaticResource CurrencyItemTemplate}"
                                       SelectedValuePath="CurrencyCode"
                                       VerticalContentAlignment="Center"
                                       Background="#F8F9F9"
@@ -74,15 +91,15 @@
 
 
                             <TextBox Grid.Column="2"
-                                     Text="{Binding TargetValue, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource decimalToTwoPlacesConverter}}"
-                                     FontSize="18"
-                                     FontWeight="Bold"
-                                     IsReadOnly="True"
-                                     BorderThickness="0"
-                                     Background="Transparent"
-                                     VerticalContentAlignment="Center"
-                                     Padding="10,0"
-                                     Margin="5" />
+                                    Text="{Binding TargetValue, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource decimalToTwoPlacesConverter}}"
+                                    FontSize="18"
+                                    FontWeight="Bold"
+                                    IsReadOnly="True"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    VerticalContentAlignment="Center"
+                                    Padding="10,0"
+                                    Margin="5" />
 
                             <ComboBox Grid.Column="3"
                                       ItemsSource="{TemplateBinding SupportedCurrencies}"
