@@ -13,7 +13,7 @@
         <Style x:Key="CustomMainBorderStyle" TargetType="Border">
             <Setter Property="Background" Value="#F8FAFC" />
             <Setter Property="CornerRadius" Value="20" />
-            <Setter Property="BorderBrush" Value="DarkBlue" />
+            <Setter Property="BorderBrush" Value="#FDFAFD" />
             <Setter Property="BorderThickness" Value="2" />
             <Setter Property="Padding" Value="8" />
             <Setter Property="Effect">

@@ -254,7 +254,7 @@
                             <Border Grid.Column="1"
                                     Style="{TemplateBinding SourceCurrencyBorderStyle}"
                                     Width="140">
-                                <ComboBox Style="{TemplateBinding SourceCurrencyStyle}"
+                                <ComboBox Style="{StaticResource ModernComboBoxStyle}"
                                           ItemsSource="{TemplateBinding SupportedCurrencies}"
                                           SelectedValue="{Binding SourceCurrency, RelativeSource={RelativeSource TemplatedParent}}"
                                           ItemTemplate="{TemplateBinding CurrencyItemTemplate}"
@@ -276,9 +276,9 @@
                             <Border Grid.Column="3"
                                     Style="{TemplateBinding TargetCurrencyBorderStyle}"
                                     Width="140">
-                                <ComboBox Style="{TemplateBinding TargetCurrencyStyle}"
+                                <ComboBox Style="{StaticResource ModernComboBoxStyle}"
                                           ItemsSource="{TemplateBinding SupportedCurrencies}"
-                                          ItemTemplate="{TemplateBinding CurrencyItemTemplate}"
+                                          ItemTemplate="{StaticResource CurrencyItemTemplate}"
                                           SelectedValue="{Binding TargetCurrency, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectedValuePath="CurrencyCode"
                                           VerticalContentAlignment="Center"
