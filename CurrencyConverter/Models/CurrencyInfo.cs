@@ -27,5 +27,10 @@ namespace CurrencyConverter.Models
         /// Gets or sets the country 
         /// </summary>
         public required string Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the flag of the country
+        /// </summary>
+        public required string FlagSource { get; set; }
     }
 }

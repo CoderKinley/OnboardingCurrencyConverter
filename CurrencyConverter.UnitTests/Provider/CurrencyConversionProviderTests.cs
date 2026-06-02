@@ -1,4 +1,4 @@
-﻿using CurrencyConverter.Models;
+using CurrencyConverter.Models;
 using CurrencyConverter.Provider;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -99,14 +99,16 @@ namespace CurrencyConverter.UnitTests.Provider
                     Country = "Bhutan",
                     CountryCode = "BT",
                     CurrencyName = "Bhutanese Ngultrum",
-                    CurrencyCode = "BTN"
+                    CurrencyCode = "BTN",
+                    FlagSource = ""
                 },
                 new CurrencyInfo
                 {
                     Country = "United States",
                     CountryCode = "US",
                     CurrencyName = "US Dollar",
-                    CurrencyCode = "USD"
+                    CurrencyCode = "USD",
+                    FlagSource = ""
                 }
             };
 

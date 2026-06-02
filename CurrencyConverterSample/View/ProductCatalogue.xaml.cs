@@ -1,4 +1,4 @@
-﻿using CurrencyConverterSample.Model;
+using CurrencyConverterSample.Model;
 using CurrencyConverterSample.ViewModel;
 using System;
 using System.Collections.Generic;

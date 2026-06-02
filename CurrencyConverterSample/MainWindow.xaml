@@ -8,18 +8,81 @@
         Title="MainWindow"
         Height="450"
         Width="800">
+    <Window.Resources>
+        <!-- Custom style for the CurrencyConverter control itself -->
+        <Style x:Key="PremiumCurrencyConverterStyle"
+               TargetType="cc:CurrencyConverter"
+               BasedOn="{StaticResource {x:Type cc:CurrencyConverter}}">
+            <Setter Property="BorderBrush" Value="#6366F1" />             
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+
+        <!-- Custom style for the main container border -->
+        <Style x:Key="CustomMainBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="30" ShadowDepth="6" Opacity="0.15" Color="#6366F1" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Custom style for the source amount input -->
+        <Style x:Key="CustomSourceAmountStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="12,0" />
+            <Setter Property="CaretBrush" Value="DarkBlue" />
+        </Style>
+
+        <!-- Custom style for the target amount display -->
+        <Style x:Key="CustomTargetAmountStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#059669" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="12,0" />
+        </Style>
+
+        <!-- Custom style for the inner input borders -->
+        <Style x:Key="CustomInputBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="BorderBrush" Value="Blue" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        
+
         <cc:CurrencyConverter Grid.Row="0"
-                              ConversionProvider="{Binding CurrencyProvider}"
-                              TargetCurrency="{Binding TargetCurrency, Mode=TwoWay}" />
-        
+                               Margin="20"
+                               Background="DarkBlue"
+                               Foreground="Cyan"
+                               Style="{StaticResource PremiumCurrencyConverterStyle}"
+                               ConversionProvider="{Binding CurrencyProvider}"
+                               TargetCurrency="{Binding TargetCurrency, Mode=TwoWay}"
+                               MainBorderStyle="{StaticResource CustomMainBorderStyle}"
+                               TargetAmountStyle="{StaticResource CustomTargetAmountStyle}"
+                               SourceAmountBorderStyle="{StaticResource CustomInputBorderStyle}"
+                               TargetAmountBorderStyle="{StaticResource CustomInputBorderStyle}"
+                               SourceCurrencyBorderStyle="{StaticResource CustomInputBorderStyle}"
+                               TargetCurrencyBorderStyle="{StaticResource CustomInputBorderStyle}" />
+
         <View:ProductCatalogue Grid.Row="1"
+                               Padding="20"
                                DataContext="{Binding ProductViewModel}"
                                ProductNameText="{Binding ProductNameHeader}"
                                OriginalPriceText="{Binding OriginalPriceHeader}"

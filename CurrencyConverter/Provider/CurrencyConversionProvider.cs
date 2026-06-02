@@ -1,4 +1,4 @@
-﻿using CurrencyConverter.Models;
+using CurrencyConverter.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -95,15 +95,39 @@ namespace CurrencyConverter.Provider
 
                     string[] parts = line.Split(',');
 
-                    if (parts.Length >= 3)
+                    if (parts.Length >= 4)
                     {
-                        currency.Add(new CurrencyInfo
+                        var countryCode = parts[1].Trim().ToLower();
+                        var currencyCode = parts[3].Trim().ToUpper();
+
+                        // Avoid duplicates in the dropdown to ensure stable flag selection
+                        if (!currency.Any(c => c.CurrencyCode == currencyCode))
                         {
-                            Country = parts[0].Trim(),
-                            CountryCode = parts[1].Trim(),
-                            CurrencyName = parts[2].Trim(), 
-                            CurrencyCode = parts[3].Trim()
-                        });
+                            string flagPath = $"pack://application:,,,/CurrencyConverter;component/Provider/svg/{countryCode}.svg";
+                            string flagSource = string.Empty;
+
+                            try
+                            {
+                                // Check if the flag resource exists in the assembly
+                                if (Application.GetResourceStream(new Uri(flagPath)) != null)
+                                {
+                                    flagSource = flagPath;
+                                }
+                            }
+                            catch
+                            {
+                                // Leave empty if resource is missing or inaccessible
+                            }
+
+                            currency.Add(new CurrencyInfo
+                            {
+                                Country = parts[0].Trim(),
+                                CountryCode = parts[1].Trim(),
+                                CurrencyName = parts[2].Trim(),
+                                CurrencyCode = currencyCode,
+                                FlagSource = flagSource
+                            });
+                        }
                     }
                 }
             }
